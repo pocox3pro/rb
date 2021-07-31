@@ -2,17 +2,9 @@
 
 cd /tmp/rom
 
-#sync
-repo init -q --no-repo-verify --depth=1 -u https://github.com/Havoc-OS/android_manifest.git -b eleven -g default,-device,-mips,-darwin,-notdefault
-git clone https://github.com/pocox3pro/Local-Manifests.git --depth 1 -b havoc .repo/local_manifests
-repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 30 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 8
-
-clear
-cd /tmp/rom
-
 #build
 . build/envsetup.sh
-lunch havoc_vayu-user
+lunch derp_vayu-user
 export CCACHE_DIR=/tmp/ccache
 export CCACHE_EXEC=$(which ccache)
 export USE_CCACHE=1
@@ -20,9 +12,9 @@ ccache -M 20G
 ccache -o compression=true
 ccache -z
 
-mka bacon -j8 &
+mka derp -j8 &
 sleep 90m
 kill %1
 ccache -s
 
-#mka bacon -j8
+#mka derp -j8

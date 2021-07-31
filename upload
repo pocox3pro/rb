@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 cd /tmp
 
 curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Compress ccache start at $(date)&chat_id=${tg_id}&parse_mode=html"
@@ -15,10 +14,10 @@ time com ccache 1
 curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Compress ccache done at $(date)&chat_id=${tg_id}&parse_mode=html"
 
 cd /tmp
-time rclone copy /tmp/rom/out/target/product/vayu/Havoc-OS*.zip remote:havoc -P
+time rclone copy /tmp/rom/out/target/product/vayu/*.zip remote:vayuccache -P
 
 cd /tmp
 
 curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Uploading ccache at $(date)&chat_id=${tg_id}&parse_mode=html"
-time rclone copy ccache.tar.gz remote:havoc -P
+time rclone copy ccache.tar.gz remote:vayuccache -P
 curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Upload ccache done at $(date)&chat_id=${tg_id}&parse_mode=html"
