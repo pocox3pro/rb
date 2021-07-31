@@ -3,7 +3,7 @@
 export CCACHE_DIR=/tmp/ccache
 sleep 2m
 
-while : 
+while :
 do
 ccache -s
 echo ''

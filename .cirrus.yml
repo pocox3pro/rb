@@ -1,10 +1,12 @@
 env:
     CIRRUS_CLONE_DEPTH: 1
     CIRRUS_WORKING_DIR: "/tmp/ci"
-    rclone_config: "ENCRYPTED[81f2ea42a1bb72f5514f01604e25bb9057eb0b6f1b0f5a18434dd7175df07619a880e75ecb9597e10e69fba44553fe84]"
+    rclone_config: "ENCRYPTED[02ac8cec21dd46193eb5846410dcff77c1081c63e80268460c02c6abfa6a78f66861547377189793805c0e18859a9f71]"
+    bot_api: "ENCRYPTED[c162f42e974fcc4c0e3db7607edb9ddc63c973fc37ac3482bc54e42eb780007beff211e16c5f0e2617ffbc19772d8957]"
+    tg_id: "ENCRYPTED[f713aa93aa7c710901b7d2330b59268349bcb8b4bd2c364ed9245f102017505e6fff9fe962462a4a1a31b0a5dd5b6b47]"
 
 task:
-    name: nusantara
+    name: habuc
     timeout_in: 120m
     container:
       image: inok2341/builder:latest
@@ -17,7 +19,7 @@ task:
     download_ccache_background_script:
       - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Download ccache at $(date)&chat_id=${tg_id}&parse_mode=html"
       - df -h && free -h && nproc && cat /etc/os* && env
-      - rclone copy inok:nusantara/ccache.tar.gz /tmp -P
+      - curl https://ap.apd1.workers.dev/4:/havoc/ccache.tar.gz -o /tmp/ccache.tar.gz
       - cd /tmp
       - time tar xf ccache.tar.gz
       - rm -rf ccache.tar.gz
@@ -26,7 +28,9 @@ task:
     monitor_background_script:
       - ./monitor
     building_script:
+      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Build ROM at $(date)&chat_id=${tg_id}&parse_mode=html"
       - ./build
+      - time rclone copy /tmp/rom/out/error.log remote:havoc -P
     compress_ccache_script:    
       - ./upload
 

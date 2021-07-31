@@ -3,20 +3,16 @@
 cd /tmp/rom
 
 #sync
-repo init -q --no-repo-verify --depth=1 -u https://github.com/NusantaraProject-ROM/android_manifest -b 11 -g default,-device,-mips,-darwin,-notdefault
-repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
-
-git clone --depth=1 https://github.com/MiBengal-Development/Device_xiaomi_J --single-branch -b 11 device/xiaomi/juice
-git clone --depth=1 https://github.com/I-n-o-k/prebuilt_vendor_juice --single-branch -b 11 vendor/xiaomi/juice
-git clone --depth=1 https://github.com/MiBengal-Development/android_kernel_xiaomi_bengal  --single-branch -b 11.0 kernel/xiaomi/juice
-git clone --depth=1 https://github.com/GengKapak/GengKapak-clang --single-branch -b 13 prebuilts/clang/host/linux-x86/clang-gengkapak
+repo init -q --no-repo-verify --depth=1 -u https://github.com/Havoc-OS/android_manifest.git -b eleven -g default,-device,-mips,-darwin,-notdefault
+git clone https://github.com/pocox3pro/Local-Manifests.git --depth 1 -b havoc .repo/local_manifests
+repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 30 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 8
 
 clear
 cd /tmp/rom
 
 #build
 . build/envsetup.sh
-lunch nad_juice-userdebug
+lunch havoc_vayu-user
 export CCACHE_DIR=/tmp/ccache
 export CCACHE_EXEC=$(which ccache)
 export USE_CCACHE=1
@@ -24,9 +20,9 @@ ccache -M 20G
 ccache -o compression=true
 ccache -z
 
-mka nad -j8 &
+mka bacon -j8 &
 sleep 90m
 kill %1
 ccache -s
 
-#mka nad -j8
+#mka bacon -j8
