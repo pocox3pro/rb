@@ -3,7 +3,7 @@
 cd /tmp/rom
 
 #sync
-repo init -q --no-repo-verify --depth=1 -u https://github.com/Havoc-OS/android_manifest.git -b eleven -g default,-device,-mips,-darwin,-notdefault
+repo init -q --no-repo-verify --depth=1 -u https://github.com/SKULSHADY/android_manifest.git -b private -g default,-device,-mips,-darwin,-notdefault
 git clone https://github.com/pocox3pro/Local-Manifests.git --depth 1 -b havoc .repo/local_manifests
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 30 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 8
 
