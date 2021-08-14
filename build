@@ -12,7 +12,6 @@ repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync 
 git clone https://rahul9999xda:$git_token@github.com/Havoc-OS/frameworks_base frameworks/base
 git clone https://rahul9999xda:$git_token@github.com/Havoc-OS/packages_apps_Settings packages/apps/Settings
 git clone https://rahul9999xda:$git_token@github.com/Havoc-OS/android_packages_apps_Updater packages/apps/Updater
-git clone https://rahul9999xda:$git_token@github.com/Havoc-OS/packages_apps_ConfigCenter packages/apps/ConfigCenter
 git clone https://rahul9999xda:$git_token@github.com/Havoc-OS/android_external_faceunlock external/faceunlock
 
 clear
@@ -30,9 +29,9 @@ ccache -M 20G
 ccache -o compression=true
 ccache -z
 
-mka bacon -j8 &
-sleep 90m
-kill %1
-ccache -s
+#mka bacon -j8 &
+#sleep 90m
+#kill %1
+#ccache -s
 
-#mka bacon -j8
+mka bacon -j8
