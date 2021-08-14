@@ -16,6 +16,7 @@ curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Compre
 
 cd /tmp
 time rclone copy /tmp/rom/out/target/product/vayu/Havoc-OS*.zip remote:havoc -P
+time rclone copy /tmp/rom/*.json remote:havoc -P
 
 cd /tmp
 
