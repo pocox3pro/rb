@@ -23,15 +23,15 @@ lunch havoc_vayu-user
 export CCACHE_DIR=/tmp/ccache
 export CCACHE_EXEC=$(which ccache)
 export USE_CCACHE=1
-export WITH_GAPPS=true
+export WITH_GAPPS=false
 export TARGET_GAPPS_ARCH=arm64
 ccache -M 20G
 ccache -o compression=true
 ccache -z
 
-#mka bacon -j8 &
-#sleep 90m
-#kill %1
-#ccache -s
+mka bacon -j8 &
+sleep 90m
+kill %1
+ccache -s
 
-mka bacon -j8
+#mka bacon -j8
