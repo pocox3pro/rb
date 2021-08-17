@@ -10,7 +10,7 @@ task:
     name: cirrus-ci.org
     timeout_in: 120m
     container:
-      image: inok2341/builder:latest
+      image: Dockerfile
       cpu: 8
       memory: 32G      
 
