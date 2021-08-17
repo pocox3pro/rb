@@ -7,7 +7,7 @@ env:
     git_token: "ENCRYPTED[866b5eef2cf0d70513c24a1db93ce49e3e3c43dbdef92443891308a16805ba4a4de259afaf98a291b4f8718935128f6f]"
 
 task:
-    name: habuc
+    name: cirrus-ci.org
     timeout_in: 120m
     container:
       image: inok2341/builder:latest
@@ -24,14 +24,44 @@ task:
       - cd /tmp
       - time tar xf ccache.tar.gz
       - rm -rf ccache.tar.gz
-      - mkdir -p /tmp/rom
+    sync_script:
+      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Sync ROM at $(date)&chat_id=${tg_id}&parse_mode=html"
+      - git config --global  user.name "rahul9999xda"
+      - git config --global  user.email "rahul9999xda@gmail.com"
+      - mkdir -p /tmp/rom # Where to sync source
       - cd /tmp/rom
-    monitor_background_script:
-      - ./monitor
+      - repo init -q --no-repo-verify --depth=1 -u https://github.com/PocoX3Pro-Havoc-OS/android_manifest.git -b private -g default,-device,-mips,-darwin,-notdefault
+      - git clone https://github.com/pocox3pro/Local-Manifests.git --depth 1 -b havoc .repo/local_manifests
+      - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 30 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 8
+      - git clone https://rahul9999xda:$git_token@github.com/Havoc-OS/frameworks_base frameworks/base
+      - git clone https://rahul9999xda:$git_token@github.com/Havoc-OS/packages_apps_Settings packages/apps/Settings
+      - git clone https://rahul9999xda:$git_token@github.com/Havoc-OS/android_packages_apps_Updater packages/apps/Updater
+      - git clone https://rahul9999xda:$git_token@github.com/Havoc-OS/android_external_faceunlock external/faceunlock
+      - clear
+      - cd /tmp/rom
     building_script:
       - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Build ROM at $(date)&chat_id=${tg_id}&parse_mode=html"
-      - ./build
+      - . build/envsetup.sh
+      - lunch havoc_vayu-user
+      - export CCACHE_DIR=/tmp/ccache
+      - export CCACHE_EXEC=$(which ccache)
+      - export USE_CCACHE=1
+      - export WITH_GAPPS=true
+      - export TARGET_GAPPS_ARCH=arm64
+      - ccache -M 20G
+      - ccache -o compression=true
+      - ccache -z
+      - mka bacon -j8 &
+      - sleep 90m
+      - kill %1
+      - ccache -s
       - time rclone copy /tmp/rom/out/error.log remote:havoc -P
-    compress_ccache_script:    
-      - ./upload
+    upload_ccache_script:    
+      - cd /tmp
+      - time rclone copy /tmp/rom/out/target/product/vayu/Havoc-OS*.zip remote:havoc -P
+      - time rclone copy /tmp/rom/*.json remote:havoc -P
+      - cd /tmp
+      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Uploading ccache at $(date)&chat_id=${tg_id}&parse_mode=html"
+      - time rclone copy ccache.tar.gz remote:havoc -P
+      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Upload ccache done at $(date)&chat_id=${tg_id}&parse_mode=html"
 
