@@ -1,34 +1,32 @@
 env:
-    CIRRUS_CLONE_DEPTH: 1
-    CIRRUS_WORKING_DIR: "/tmp/ci"
-    rclone_config: "ENCRYPTED[02ac8cec21dd46193eb5846410dcff77c1081c63e80268460c02c6abfa6a78f66861547377189793805c0e18859a9f71]"
-    bot_api: "ENCRYPTED[c162f42e974fcc4c0e3db7607edb9ddc63c973fc37ac3482bc54e42eb780007beff211e16c5f0e2617ffbc19772d8957]"
-    tg_id: "ENCRYPTED[f713aa93aa7c710901b7d2330b59268349bcb8b4bd2c364ed9245f102017505e6fff9fe962462a4a1a31b0a5dd5b6b47]"
-    git_token: "ENCRYPTED[866b5eef2cf0d70513c24a1db93ce49e3e3c43dbdef92443891308a16805ba4a4de259afaf98a291b4f8718935128f6f]"
+    rclone_config: "ENCRYPTED[3d228a57e80020e805e9e127a96e893c637cbe5559757d3c73781a89fb73ac89636814dec5295c6eb099d5293bd6b119]"
+    bot_api: "ENCRYPTED[81cbfdf0eb30e6be3a217e102e753c3ec1f3b2a8515125799f695282e3021518248023ffd4ed608ecfdd7721d4c394e2]"
+    tg_id: "ENCRYPTED[8718d1657e15b3fa1876d485284c244a9814c46f75a84842999569b4216070a8d9b74f94136adadd52cdbb1550b3050b]"
+    git_token: "ENCRYPTED[275899439d04b9f40e8ccede8a6a320c84e4dd59f82561a5b290eb2f0329c7dc39fb587e5e5709dc84dedc83a6b616de]"
 
 task:
     name: cirrus-ci.org
     timeout_in: 120m
     container:
-      image: Dockerfile
+      image: inok2341/anu:latest
       cpu: 8
-      memory: 32G      
+      memory: 32G
 
-    rclone_setup_script:
+    memantau_setup_script:
       - mkdir -p ~/.config/rclone
       - echo "$rclone_config" > ~/.config/rclone/rclone.conf
-    download_ccache_background_script:
+    memantau_background_script:
       - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Download ccache at $(date)&chat_id=${tg_id}&parse_mode=html"
       - df -h && free -h && nproc && cat /etc/os* && env
       - curl https://ap.apd1.workers.dev/4:/havoc/ccache.tar.gz -o /tmp/ccache.tar.gz
       - cd /tmp
       - time tar xf ccache.tar.gz
       - rm -rf ccache.tar.gz
-    sync_script:
+    mengsinkronisasi_script:
       - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Sync ROM at $(date)&chat_id=${tg_id}&parse_mode=html"
       - git config --global  user.name "rahul9999xda"
       - git config --global  user.email "rahul9999xda@gmail.com"
-      - mkdir -p /tmp/rom # Where to sync source
+      - mkdir -p /tmp/rom
       - cd /tmp/rom
       - repo init -q --no-repo-verify --depth=1 -u https://github.com/PocoX3Pro-Havoc-OS/android_manifest.git -b private -g default,-device,-mips,-darwin,-notdefault
       - git clone https://github.com/pocox3pro/Local-Manifests.git --depth 1 -b havoc .repo/local_manifests
@@ -39,7 +37,8 @@ task:
       - git clone https://rahul9999xda:$git_token@github.com/Havoc-OS/android_external_faceunlock external/faceunlock
       - clear
       - cd /tmp/rom
-    building_script:
+    mengumpulkan_script:
+      - cd /tmp/rom
       - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Build ROM at $(date)&chat_id=${tg_id}&parse_mode=html"
       - . build/envsetup.sh
       - lunch havoc_vayu-user
@@ -56,7 +55,7 @@ task:
       - kill %1
       - ccache -s
       - time rclone copy /tmp/rom/out/error.log remote:havoc -P
-    upload_ccache_script:    
+    mengunggah_script:    
       - cd /tmp
       - time rclone copy /tmp/rom/out/target/product/vayu/Havoc-OS*.zip remote:havoc -P
       - time rclone copy /tmp/rom/*.json remote:havoc -P
