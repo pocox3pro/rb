@@ -51,7 +51,7 @@ task:
     mengunggah_script:
       - cd /tmp
       - time rclone copy /tmp/rom/out/target/product/vayu/*.zip remote:vayuccache -P
-      - time rclone copy /tmp/rom/out/target/product/vayu/*.json remote:vayuccache -P
+      - time rclone copy /tmp/rom/out/target/product/vayu/vayu.json remote:vayuccache -P
       - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Uploading ccache started at $(date)&chat_id=${tg_id}&parse_mode=html"
       - cd /tmp
       - time rclone copy ccache.tar.gz remote:vayuccache -P
