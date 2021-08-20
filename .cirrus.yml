@@ -55,12 +55,5 @@ task:
       - ccache -s
 #      - mka bacon -j8
       - time rclone copy /tmp/rom/out/error.log remote:havoc -P
-    mengunggah_script:    
-#      - cd /tmp
-#      - time rclone copy /tmp/rom/out/target/product/vayu/Havoc-OS*.zip remote:havoc -P
-#      - time rclone copy /tmp/rom/*.json remote:havoc -P
-      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Uploading ccache started at $(date)&chat_id=${tg_id}&parse_mode=html"
-      - cd /tmp
-      - time rclone copy ccache.tar.gz remote:havoc -P
-      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Upload ccache done at $(date)&chat_id=${tg_id}&parse_mode=html"
-
+    mengunggah_script:
+      - ./mengunggah
