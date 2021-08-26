@@ -42,11 +42,11 @@ task:
       - ccache -M 20G
       - ccache -o compression=true
       - ccache -z
-      - mka derp -j8 &
-      - sleep 90m
-      - kill %1
-      - ccache -s
-#      - mka derp -j8
+#      - mka derp -j8 &
+#      - sleep 90m
+#      - kill %1
+#      - ccache -s
+      - mka derp -j8
       - time rclone copy /tmp/rom/out/error.log remote:vayuccache -P
     mengunggah_script:
       - ./mengunggah
