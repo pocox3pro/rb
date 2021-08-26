@@ -8,7 +8,7 @@ task:
     name: cirrus-ci.org
     timeout_in: 120m
     container:
-      image: inok2341/anu:latest
+      dockerfile: Dockerfile
       cpu: 8
       memory: 32G
 
@@ -23,7 +23,7 @@ task:
       - time tar xf ccache.tar.gz
       - rm -rf ccache.tar.gz
     mengsinkronisasi_script:
-      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Sync started at $(date)&chat_id=${tg_id}&parse_mode=html"
+      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Havoc Sync started at $(date)&chat_id=${tg_id}&parse_mode=html"
       - git config --global  user.name "rahul9999xda"
       - git config --global  user.email "rahul9999xda@gmail.com"
       - mkdir -p /tmp/rom
@@ -38,7 +38,7 @@ task:
       - git clone https://rahul9999xda:$git_token@github.com/Havoc-OS/android_external_faceunlock external/faceunlock
     mengumpulkan_script:
       - cd /tmp/rom
-      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Build started at $(date)&chat_id=${tg_id}&parse_mode=html"
+      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Havoc Build started at $(date)&chat_id=${tg_id}&parse_mode=html"
       - . build/envsetup.sh
       - lunch havoc_vayu-user
       - export CCACHE_DIR=/tmp/ccache
@@ -49,11 +49,11 @@ task:
       - ccache -M 20G
       - ccache -o compression=true
       - ccache -z
-#      - mka bacon -j8 &
-#      - sleep 90m
-#      - kill %1
-#      - ccache -s
-      - mka bacon -j8
+      - mka bacon -j8 &
+      - sleep 90m
+      - kill %1
+      - ccache -s
+#      - mka bacon -j8
       - time rclone copy /tmp/rom/out/error.log remote:havoc -P
     mengunggah_script:
       - ./mengunggah

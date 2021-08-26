@@ -14,6 +14,7 @@ cd /tmp
 time rclone copy /tmp/rom/out/target/product/vayu/Havoc-OS*.zip remote:havoc -P
 time rclone copy /tmp/rom/*.json remote:havoc -P
 curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Download Link -> https://ap.apd1.workers.dev/4:/havoc/$(ls Havoc-OS*.zip)=${tg_id}&parse_mode=html"
+curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Uploading ccache at $(date)&chat_id=${tg_id}&parse_mode=html"
 cd /tmp
 time rclone copy ccache.tar.gz remote:havoc -P
-curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Upload ccache done at $(date)&chat_id=${tg_id}&parse_mode=html"
+curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Uploading ccache done at $(date)&chat_id=${tg_id}&parse_mode=html"
