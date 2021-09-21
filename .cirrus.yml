@@ -1,5 +1,5 @@
 env:
-    rclone_config: "ENCRYPTED[3d228a57e80020e805e9e127a96e893c637cbe5559757d3c73781a89fb73ac89636814dec5295c6eb099d5293bd6b119]"
+    rclone_config: "ENCRYPTED[cbf1d0c289b1e10d167040626cf1e2940e8c3991058145e0f5ceb4bbe8eb85176a8323c2faaa9ba6e594bc2f7f1612a1]"
     bot_api: "ENCRYPTED[81cbfdf0eb30e6be3a217e102e753c3ec1f3b2a8515125799f695282e3021518248023ffd4ed608ecfdd7721d4c394e2]"
     tg_id: "ENCRYPTED[8718d1657e15b3fa1876d485284c244a9814c46f75a84842999569b4216070a8d9b74f94136adadd52cdbb1550b3050b]"
     git_token: "ENCRYPTED[275899439d04b9f40e8ccede8a6a320c84e4dd59f82561a5b290eb2f0329c7dc39fb587e5e5709dc84dedc83a6b616de]"
@@ -18,7 +18,7 @@ task:
     memantau_background_script:
       - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Download ccache started at $(date)&chat_id=${tg_id}&parse_mode=html"
       - df -h && free -h && nproc && cat /etc/os* && env
-      - curl https://ap.apd1.workers.dev/4:/vayuccache/ccache.tar.gz -o /tmp/ccache.tar.gz
+      - curl https://ap.apd1.workers.dev/4:/ccache/ccache.tar.gz -o /tmp/ccache.tar.gz
       - cd /tmp
       - time tar xf ccache.tar.gz
       - rm -rf ccache.tar.gz
@@ -47,6 +47,6 @@ task:
       - kill %1
       - ccache -s
 #      - mka derp -j8
-      - time rclone copy /tmp/rom/out/error.log remote:vayuccache -P
+      - time rclone copy /tmp/rom/out/error.log remote:ccache -P
     mengunggah_script:
       - ./mengunggah
