@@ -11,10 +11,10 @@ com ()
 time com ccache 1
 
 cd /tmp
-time rclone copy /tmp/rom/out/target/product/vayu/DerpFest-11*.zip remote:ccache -P
-time rclone copy /tmp/rom/out/target/product/vayu/vayu.json remote:ccache -P
-curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Download Link -> https://ap.apd1.workers.dev/4:/ccache/$(ls DerpFest-11*.zip)=${tg_id}&parse_mode=html"
+time rclone copy /tmp/rom/out/target/product/X00T/DerpFest-11*.zip remote:x00t -P
+time rclone copy /tmp/rom/out/target/product/X00T/X00T.json remote:x00t -P
+curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Download Link -> https://ap.apd1.workers.dev/4:/x00t/$(ls DerpFest-11*.zip)=${tg_id}&parse_mode=html"
 curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Uploading ccache at $(date)&chat_id=${tg_id}&parse_mode=html"
 cd /tmp
-time rclone copy ccache.tar.gz remote:ccache -P
+time rclone copy ccache.tar.gz remote:x00t -P
 curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Uploading ccache done at $(date)&chat_id=${tg_id}&parse_mode=html"

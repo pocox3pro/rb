@@ -18,35 +18,35 @@ task:
     memantau_background_script:
       - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Download ccache started at $(date)&chat_id=${tg_id}&parse_mode=html"
       - df -h && free -h && nproc && cat /etc/os* && env
-      - curl https://ap.apd1.workers.dev/4:/ccache/ccache.tar.gz -o /tmp/ccache.tar.gz
+      - curl https://ap.apd1.workers.dev/4:/x00t/ccache.tar.gz -o /tmp/ccache.tar.gz
       - cd /tmp
       - time tar xf ccache.tar.gz
       - rm -rf ccache.tar.gz
     mengsinkronisasi_script:
-      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Sync started at $(date)&chat_id=${tg_id}&parse_mode=html"
+      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=X00T Sync started at $(date)&chat_id=${tg_id}&parse_mode=html"
       - git config --global  user.name "rahul9999xda"
       - git config --global  user.email "rahul9999xda@gmail.com"
       - mkdir -p /tmp/rom
       - cd /tmp/rom
       - repo init -q --no-repo-verify --depth=1 -u git://github.com/DerpFest-11/manifest.git -b 11 -g default,-device,-mips,-darwin,-notdefault
-      - git clone https://github.com/pocox3pro/Local-Manifests -b master --depth=1 .repo/local_manifests
+      - git clone https://github.com/derp-sdm660-common/Local-Manifests.git -b derp4.19 --depth=1 .repo/local_manifests
       - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 30 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 8
     mengumpulkan_script:
       - cd /tmp/rom
-      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Build started at $(date)&chat_id=${tg_id}&parse_mode=html"
+      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=X00T Build started at $(date)&chat_id=${tg_id}&parse_mode=html"
       - . build/envsetup.sh
-      - lunch derp_vayu-user
+      - lunch derp_X00T-userdebug
       - export CCACHE_DIR=/tmp/ccache
       - export CCACHE_EXEC=$(which ccache)
       - export USE_CCACHE=1
       - ccache -M 20G
       - ccache -o compression=true
       - ccache -z
-#      - mka derp -j8 &
-#      - sleep 90m
-#      - kill %1
-#      - ccache -s
-      - mka derp -j8
-      - time rclone copy /tmp/rom/out/error.log remote:ccache -P
+      - mka derp -j8 &
+      - sleep 90m
+      - kill %1
+      - ccache -s
+#      - mka derp -j8
+      - time rclone copy /tmp/rom/out/error.log remote:x00t -P
     mengunggah_script:
       - ./mengunggah
