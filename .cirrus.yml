@@ -23,7 +23,7 @@ task:
       - time tar xf ccache.tar.gz
       - rm -rf ccache.tar.gz
     mengsinkronisasi_script:
-      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=X00T Sync started at $(date)&chat_id=${tg_id}&parse_mode=html"
+      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=X00TD Sync started at $(date)&chat_id=${tg_id}&parse_mode=html"
       - git config --global  user.name "rahul9999xda"
       - git config --global  user.email "rahul9999xda@gmail.com"
       - mkdir -p /tmp/rom
@@ -33,9 +33,9 @@ task:
       - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 30 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 8
     mengumpulkan_script:
       - cd /tmp/rom
-      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=X00T Build started at $(date)&chat_id=${tg_id}&parse_mode=html"
+      - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=X00TD Build started at $(date)&chat_id=${tg_id}&parse_mode=html"
       - . build/envsetup.sh
-      - lunch derp_X00T-userdebug
+      - lunch derp_X00TD-userdebug
       - export CCACHE_DIR=/tmp/ccache
       - export CCACHE_EXEC=$(which ccache)
       - export USE_CCACHE=1
