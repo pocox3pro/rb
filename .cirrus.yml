@@ -33,6 +33,7 @@ task:
       - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 30 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 8
     mengumpulkan_script:
       - cd /tmp/rom
+      - cd vendor/derp && curl -L -o mypatch.patch https://gitlab.com/asus-sdm660-4.19/arrow/android_vendor_arrow/-/commit/59f1f1248da2b69c0a4c18a1da3614a452457aad.patch && patch -p1 < mypatch.patch && cd -
       - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=X00TD Build started at $(date)&chat_id=${tg_id}&parse_mode=html"
       - . build/envsetup.sh
       - lunch derp_X00TD-userdebug
