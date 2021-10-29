@@ -41,7 +41,7 @@ task:
       - cd /tmp/rom
       - curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Build started at $(date)&chat_id=${tg_id}&parse_mode=html"
       - . build/envsetup.sh
-      - lunch derp_vayu-user
+      - lunch derp_vayu-userdebug
       - export CCACHE_DIR=/tmp/ccache
       - export CCACHE_EXEC=$(which ccache)
       - export USE_CCACHE=1
