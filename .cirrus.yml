@@ -34,7 +34,7 @@ task:
       - sudo mkdir ~/.ssh && sudo chmod 0700 ~/.ssh
       - eval `ssh-agent -s` && ssh-add /tmp/ssh_ci
       - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-      - repo init -q --no-repo-verify --depth=1 -u git://github.com/DerpFest-12/manifest.git -b 12 -g default,-device,-mips,-darwin,-notdefault
+      - repo init -q --no-repo-verify --depth=1 -u ssh://git@github.com/DerpFest-12/manifest.git -b 12 -g default,-device,-mips,-darwin,-notdefault
       - git clone https://github.com/pocox3pro/Local-Manifests -b derp12 --depth=1 .repo/local_manifests
       - repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 30 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j 8
     mengumpulkan_script:
